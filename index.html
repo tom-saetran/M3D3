@@ -167,7 +167,7 @@
 
         <script>
             const loadImages = query => {
-                fetch("https:/-/splashbase.herokuapp.com/api/v1/images/search?query=" + query)
+                fetch("https://splashbase.herokuapp.com/api/v1/images/search?query=" + query)
                     .then(payload => payload.json())
                     .then(payload => {
                         for (const image of payload.images) createCard(image)
