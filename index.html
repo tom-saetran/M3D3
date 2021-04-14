@@ -146,7 +146,7 @@
                                     <div class="d-flex justify-content-between align-items-center">
                                         <div class="btn-group">
                                             <button type="button" onclick="openModal()" class="btn btn-sm btn-outline-secondary">View</button>
-                                            <button type="button" onclick="hideCard()" class="btn btn-sm btn-outline-secondary">Hide</button>
+                                            <button type="button" onclick="hideCard('myidis')" class="btn btn-sm btn-outline-secondary">Hide</button>
                                         </div>
                                         <small class="text-muted">9 mins</small>
                                     </div>
@@ -170,7 +170,17 @@
 
         <script>
             const loadImages = () => {
-                console.log("Hi mom")
+                console.warn("I AM A WARNING")
+                console.error("I AM ERROR")
+                console.info("I AM INFO")
+                fetch("https://splashbase.herokuapp.com/api/v1/images/search?query=bird")
+                    .then(payload => payload.json())
+                    .then(payload => {
+                        // clean up and select data here
+
+                        console.log(payload)
+                    })
+                    .catch(err => console.log(err))
             }
 
             const loadSecondaryImages = () => {
@@ -181,9 +191,14 @@
                 console.log("opening modal")
             }
 
-            const hideCard = e => {
-                event.target.parent.classList.add("d-none")
-                console.log("hiding card")
+            const hideCard = id => {
+                //event.target.parent.classList.add("d-none")
+                console.log(id)
+            }
+
+            const createCard = () => {
+                let title = "wee"
+                let card = `<div>${title}</div>`
             }
         </script>
 
