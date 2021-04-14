@@ -9,7 +9,7 @@
         1) When pressing on Load Images button, load the pictures from http://www.splashbase.co/api/v1/images/search?query=your query
         2) When pressing on Load Seconday Images, load the pictures from http://www.splashbase.co/api/v1/images/search?query=your secondary query
         3) When the user clicks on the "VIEW" button inside the Card, open the specified image in a modal view
-        4) The Edit button should be replace with a "Hide" button. 
+        ----4) The Edit button should be replace with a "Hide" button. 
         5) When the hide button is pressed, the whole picture card disappears.
         6) Replace the "9 mins" string in the card template with the ID of the Image
         
@@ -181,7 +181,8 @@
                 console.log("opening modal")
             }
 
-            const hideCard = () => {
+            const hideCard = e => {
+                event.target.parent.classList.add("d-none")
                 console.log("hiding card")
             }
         </script>
