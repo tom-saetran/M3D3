@@ -128,33 +128,15 @@
                     <h1 class="jumbotron-heading">Album API example</h1>
                     <p class="lead text-muted">This page will dynamically load pictures from the web, and display them in a cool way!</p>
                     <p>
-                        <a href="#" onclick="loadImages()" class="btn btn-primary my-2">Load Images</a>
-                        <a href="#" onclick="loadSecondaryImages()" class="btn btn-secondary my-2">Load Secondary Images</a>
+                        <a href="#" onclick="loadImages('bird')" class="btn btn-primary my-2">Load Images</a>
+                        <a href="#" onclick="loadImages('dog')" class="btn btn-secondary my-2">Load Secondary Images</a>
                     </p>
                 </div>
             </section>
 
             <div class="album py-5 bg-light">
                 <div class="container">
-                    <div id="albumroot" class="row">
-                        <!-- Start Card Template -->
-                        <div class="col-md-4">
-                            <div class="card mb-4 shadow-sm">
-                                <img class="bd-placeholder-img card-img-top" width="100%" height="225" src="" aria-label="Thumbnail" />
-                                <div class="card-body">
-                                    <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        <div class="btn-group">
-                                            <button type="button" onclick="openModal()" class="btn btn-sm btn-outline-secondary">View</button>
-                                            <button type="button" onclick="hideCard('myidis')" class="btn btn-sm btn-outline-secondary">Hide</button>
-                                        </div>
-                                        <small class="text-muted">9 mins</small>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- End Card Template -->
-                    </div>
+                    <div id="albumroot" class="row"></div>
                 </div>
             </div>
         </main>
@@ -169,36 +151,47 @@
         </footer>
 
         <script>
-            const loadImages = () => {
-                console.warn("I AM A WARNING")
-                console.error("I AM ERROR")
-                console.info("I AM INFO")
-                fetch("https://splashbase.herokuapp.com/api/v1/images/search?query=bird")
+            const loadImages = query => {
+                fetch("https://splashbase.herokuapp.com/api/v1/images/search?query=" + query)
                     .then(payload => payload.json())
                     .then(payload => {
-                        // clean up and select data here
-
-                        console.log(payload)
+                        for (const image of payload.images) {
+                            createCard(image)
+                        }
                     })
                     .catch(err => console.log(err))
             }
 
-            const loadSecondaryImages = () => {
-                console.log("Hi secondary mom")
-            }
-
-            const openModal = () => {
+            const openModal = source => {
                 console.log("opening modal")
             }
 
-            const hideCard = id => {
-                //event.target.parent.classList.add("d-none")
-                console.log(id)
+            const hideCard = () => {
+                //
             }
 
-            const createCard = () => {
-                let title = "wee"
-                let card = `<div>${title}</div>`
+            const createCard = image => {
+                const parent = document.querySelector("#albumroot")
+                const cardTemplate = `
+                        <!-- Start Card Template -->
+                        <div class="col-md-4">
+                            <div class="card mb-4 shadow-sm">
+                                <img class="bd-placeholder-img card-img-top" width="100%" height="225" src="${image.url}" aria-label="Thumbnail" />
+                                <div class="card-body">
+                                    <p class="card-text"><strong>${image.url}</strong> is taken from <strong>${image.site}</strong></p>
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div class="btn-group">
+                                            <button type="button" onclick="openModal()" class="btn btn-sm btn-outline-secondary">View</button>
+                                            <button type="button" onclick="hideCard()" class="btn btn-sm btn-outline-secondary">Hide</button>
+                                        </div>
+                                        <small class="text-muted">${image.id}</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- End Card Template -->`
+
+                parent.innerHTML += cardTemplate
             }
         </script>
 
